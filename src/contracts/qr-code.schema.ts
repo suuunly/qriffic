@@ -7,10 +7,10 @@ export enum QrStyle {
 
 export const qrCodeSchema = z.object({
   value: z.string().url(),
-  style: z.nativeEnum(QrStyle),
+  qrStyle: z.nativeEnum(QrStyle),
   eyeRadius: z.number().gte(0),
-  // bgColor: z.string(),
-  // fgColor: z.string(),
+  fgColor: z.string(),
+  eyeColor: z.string(),
 })
 
 export type QrCodeData = z.infer<typeof qrCodeSchema>;

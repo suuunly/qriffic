@@ -1,15 +1,19 @@
 "use client"
 
+// source: https://gradient.page/picker
+
 import {type FC} from "react";
 import {useForm} from "react-hook-form";
 import {type QrCodeData, qrCodeSchema, QrStyle} from "~/contracts/qr-code.schema";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {Form, FormControl, FormField, FormItem, FormMessage} from "~/components/ui/form";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "~/components/ui/form";
 import {Input} from "~/components/ui/input";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "~/components/ui/select";
 import {Button} from "~/components/ui/button";
 import {extractValue} from "~/lib/events/extract-value";
 import {stringToNum} from "~/lib/converters/string-to-num";
+import {GradientPicker} from "~/components/molecules/colour-picker";
+import {Card, CardContent, CardTitle} from "~/components/ui/card";
 
 export type QrCodeFormProps = {
   defaultValues: QrCodeData,
@@ -57,7 +61,7 @@ export const QrCodeForm: FC<QrCodeFormProps> = (props) => {
       />
       <FormField
         control={form.control}
-        name="style"
+        name="qrStyle"
         render={({field}) => (
           <FormItem>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -75,6 +79,31 @@ export const QrCodeForm: FC<QrCodeFormProps> = (props) => {
           </FormItem>
         )}
       />
+      <Card>
+        <CardTitle className={"ml-3 mt-4 mb-2"}>Colours</CardTitle>
+        <CardContent>
+          <FormField
+            control={form.control}
+            name={"fgColor"}
+            render={({field}) => (
+              <FormItem className={"space-x-2 flex items-center"}>
+                <FormLabel className={"pt-2"}>Colour</FormLabel>
+                <GradientPicker background={field.value} setBackground={field.onChange}/>
+                <FormMessage/>
+              </FormItem>
+            )}/>
+          <FormField
+            control={form.control}
+            name={"eyeColor"}
+            render={({field}) => (
+              <FormItem className={"space-x-2 flex items-center"}>
+                <FormLabel className={"pt-2"}>Eye Colour</FormLabel>
+                <GradientPicker background={field.value} setBackground={field.onChange}/>
+                <FormMessage/>
+              </FormItem>
+            )}/>
+        </CardContent>
+      </Card>
       <Button type={"submit"}>Generate</Button>
     </form>
   </Form>

@@ -11,8 +11,10 @@ export default function Home() {
 
   const [qrCode, setQrCode] = React.useState<QrCodeData>({
     value: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    style: QrStyle.Dots,
-    eyeRadius: 0
+    qrStyle: QrStyle.Dots,
+    eyeRadius: 0,
+    fgColor: "#000000",
+    eyeColor: "#000000",
   });
 
   return (
@@ -23,12 +25,7 @@ export default function Home() {
       </div>
       <div className={"container flex flex-col space-y-8"}>
         <div className={"flex flex-col items-center"}>
-          <QRCode
-            value={qrCode.value}
-            size={QR_CODE_DISPLAY_SIZE}
-            qrStyle={qrCode.style}
-            eyeRadius={qrCode.eyeRadius}
-          />
+          <QRCode {...qrCode} size={QR_CODE_DISPLAY_SIZE}/>
         </div>
 
         <QrCodeForm defaultValues={qrCode} onChanged={setQrCode}/>
