@@ -55,7 +55,7 @@ export function GradientPicker({
           </div>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-64">
+      <PopoverContent className="w-64" onOpenAutoFocus={(e) => e.preventDefault()}>
         <div className="flex flex-wrap gap-1 mt-0">
           {solids.map((s) => (
             <div

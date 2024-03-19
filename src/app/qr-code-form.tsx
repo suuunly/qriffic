@@ -13,7 +13,7 @@ import {Button} from "~/components/ui/button";
 import {extractValue} from "~/lib/events/extract-value";
 import {stringToNum} from "~/lib/converters/string-to-num";
 import {GradientPicker} from "~/components/molecules/colour-picker";
-import {Card, CardContent, CardTitle} from "~/components/ui/card";
+import {FormGroup} from "~/components/molecules/form-group";
 
 export type QrCodeFormProps = {
   defaultValues: QrCodeData,
@@ -45,75 +45,78 @@ export const QrCodeForm: FC<QrCodeFormProps> = (props) => {
           </FormItem>
         )}
       />
-      <FormField
-        control={form.control}
-        name={"eyeRadius"}
-        render={({field}) => (
-          <FormItem>
-            <Input
-              {...field}
-              placeholder={"Radius of the eyes (such as 10)"}
-              onChange={extractValue((value) => field.onChange(stringToNum(value)))}
-            />
-            <FormMessage/>
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name="qrStyle"
-        render={({field}) => (
-          <FormItem>
-            <Select onValueChange={field.onChange} defaultValue={field.value}>
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a QR code style"/>
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent>
-                <SelectItem value={QrStyle.Dots}>Dots</SelectItem>
-                <SelectItem value={QrStyle.Squares}>Squares</SelectItem>
-              </SelectContent>
-            </Select>
-            <FormMessage/>
-          </FormItem>
-        )}
-      />
-      <Card>
-        <CardTitle className={"ml-3 mt-4 mb-2"}>Colours</CardTitle>
-        <CardContent>
+      <FormGroup label={"Lines"}>
+        <>
           <FormField
             control={form.control}
-            name={"bgColor"}
+            name={"eyeRadius"}
             render={({field}) => (
-              <FormItem className={"space-x-2 flex items-center"}>
-                <FormLabel className={"pt-2"}>Background</FormLabel>
-                <GradientPicker background={field.value} setBackground={field.onChange}/>
+              <FormItem>
+                <FormLabel>Eye Radius</FormLabel>
+                <Input
+                  {...field}
+                  placeholder={"Radius of the eyes (such as 10)"}
+                  onChange={extractValue((value) => field.onChange(stringToNum(value)))}
+                />
                 <FormMessage/>
               </FormItem>
-            )}/>
+            )}
+          />
           <FormField
             control={form.control}
-            name={"fgColor"}
+            name="qrStyle"
             render={({field}) => (
-              <FormItem className={"space-x-2 flex items-center"}>
-                <FormLabel className={"pt-2"}>Colour</FormLabel>
-                <GradientPicker background={field.value} setBackground={field.onChange}/>
+              <FormItem>
+                <FormLabel>Style</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a QR code style"/>
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value={QrStyle.Dots}>Dots</SelectItem>
+                    <SelectItem value={QrStyle.Squares}>Squares</SelectItem>
+                  </SelectContent>
+                </Select>
                 <FormMessage/>
               </FormItem>
-            )}/>
-          <FormField
-            control={form.control}
-            name={"eyeColor"}
-            render={({field}) => (
-              <FormItem className={"space-x-2 flex items-center"}>
-                <FormLabel className={"pt-2"}>Eye Colour</FormLabel>
-                <GradientPicker background={field.value} setBackground={field.onChange}/>
-                <FormMessage/>
-              </FormItem>
-            )}/>
-        </CardContent>
-      </Card>
+            )}
+          />
+        </>
+      </FormGroup>
+      <FormGroup label={"Colours"}>
+        <FormField
+          control={form.control}
+          name={"bgColor"}
+          render={({field}) => (
+            <FormItem>
+              <FormLabel>Background</FormLabel>
+              <GradientPicker background={field.value} setBackground={field.onChange}/>
+              <FormMessage/>
+            </FormItem>
+          )}/>
+        <FormField
+          control={form.control}
+          name={"fgColor"}
+          render={({field}) => (
+            <FormItem>
+              <FormLabel>Colour</FormLabel>
+              <GradientPicker background={field.value} setBackground={field.onChange}/>
+              <FormMessage/>
+            </FormItem>
+          )}/>
+        <FormField
+          control={form.control}
+          name={"eyeColor"}
+          render={({field}) => (
+            <FormItem>
+              <FormLabel>Eye Colour</FormLabel>
+              <GradientPicker background={field.value} setBackground={field.onChange}/>
+              <FormMessage/>
+            </FormItem>
+          )}/>
+      </FormGroup>
       <Button type={"submit"}>Generate</Button>
     </form>
   </Form>
