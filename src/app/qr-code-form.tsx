@@ -9,11 +9,9 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "~/components/ui/form";
 import {Input} from "~/components/ui/input";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "~/components/ui/select";
-import {Button} from "~/components/ui/button";
-import {extractValue} from "~/lib/events/extract-value";
-import {stringToNum} from "~/lib/converters/string-to-num";
 import {GradientPicker} from "~/components/molecules/colour-picker";
 import {FormGroup} from "~/components/molecules/form-group";
+import {Slider} from "~/components/ui/slider";
 
 export type QrCodeFormProps = {
   defaultValues: QrCodeData,
@@ -27,17 +25,22 @@ export const QrCodeForm: FC<QrCodeFormProps> = (props) => {
     defaultValues: props.defaultValues,
   })
 
+  form.watch((values) => {
+    props.onChanged(values as QrCodeData);
+  });
+
   function onSubmit(values: QrCodeData) {
     props.onChanged(values);
   }
 
-  return <Form {...form}>
+  return <Form {...form} >
     <form onSubmit={form.handleSubmit(onSubmit)} className={"space-y-3"}>
       <FormField
         control={form.control}
         name={"value"}
         render={({field}) => (
           <FormItem>
+            <FormLabel>URL</FormLabel>
             <Input
               {...field}
               placeholder={"URL"}/>
@@ -53,10 +56,13 @@ export const QrCodeForm: FC<QrCodeFormProps> = (props) => {
             render={({field}) => (
               <FormItem>
                 <FormLabel>Eye Radius</FormLabel>
-                <Input
-                  {...field}
-                  placeholder={"Radius of the eyes (such as 10)"}
-                  onChange={extractValue((value) => field.onChange(stringToNum(value)))}
+                <Slider
+                  defaultValue={[field.value]}
+                  min={0}
+                  max={23}
+                  step={1}
+                  onValueChange={(value) => field.onChange(value[0])}
+                  value={[field.value]}
                 />
                 <FormMessage/>
               </FormItem>
@@ -117,7 +123,6 @@ export const QrCodeForm: FC<QrCodeFormProps> = (props) => {
             </FormItem>
           )}/>
       </FormGroup>
-      <Button type={"submit"}>Generate</Button>
     </form>
   </Form>
 }
