@@ -9,6 +9,7 @@ export const qrCodeSchema = z.object({
   value: z.string().url(),
   qrStyle: z.nativeEnum(QrStyle),
   eyeRadius: z.number().gte(0),
+  bgColor: z.string(),
   fgColor: z.string(),
   eyeColor: z.string(),
 })

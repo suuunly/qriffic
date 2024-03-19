@@ -84,6 +84,16 @@ export const QrCodeForm: FC<QrCodeFormProps> = (props) => {
         <CardContent>
           <FormField
             control={form.control}
+            name={"bgColor"}
+            render={({field}) => (
+              <FormItem className={"space-x-2 flex items-center"}>
+                <FormLabel className={"pt-2"}>Background</FormLabel>
+                <GradientPicker background={field.value} setBackground={field.onChange}/>
+                <FormMessage/>
+              </FormItem>
+            )}/>
+          <FormField
+            control={form.control}
             name={"fgColor"}
             render={({field}) => (
               <FormItem className={"space-x-2 flex items-center"}>

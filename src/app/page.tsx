@@ -13,6 +13,7 @@ export default function Home() {
     value: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     qrStyle: QrStyle.Dots,
     eyeRadius: 0,
+    bgColor: "transparent",
     fgColor: "#000000",
     eyeColor: "#000000",
   });
