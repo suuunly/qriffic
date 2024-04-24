@@ -1,7 +1,5 @@
 "use client"
 
-// source: https://gradient.page/picker
-
 import {type FC} from "react";
 import {useForm} from "react-hook-form";
 import {type QrCodeData, qrCodeSchema, QrStyle} from "~/contracts/qr-code.schema";
@@ -12,6 +10,9 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "~/c
 import {GradientPicker} from "~/components/molecules/colour-picker";
 import {FormGroup} from "~/components/molecules/form-group";
 import {Slider} from "~/components/ui/slider";
+import {FileUpload} from "~/components/molecules/file-upload";
+import {extractValue} from "~/lib/events/extract-value";
+import {stringToNum} from "~/lib/converters/string-to-num";
 
 export type QrCodeFormProps = {
   defaultValues: QrCodeData,
@@ -25,13 +26,13 @@ export const QrCodeForm: FC<QrCodeFormProps> = (props) => {
     defaultValues: props.defaultValues,
   })
 
-  form.watch((values) => {
-    props.onChanged(values as QrCodeData);
-  });
-
   function onSubmit(values: QrCodeData) {
     props.onChanged(values);
   }
+
+  form.watch((values) => {
+    onSubmit(values as QrCodeData);
+  });
 
   return <Form {...form} >
     <form onSubmit={form.handleSubmit(onSubmit)} className={"space-y-3"}>
@@ -48,7 +49,19 @@ export const QrCodeForm: FC<QrCodeFormProps> = (props) => {
           </FormItem>
         )}
       />
-      <FormGroup label={"Lines"}>
+      <FormGroup label={"Image"}>
+        <FormField control={form.control} name={"size"} render={({field}) => (
+          <FormItem>
+            <FormLabel>Size</FormLabel>
+            <Input
+              {...field}
+              type={"number"}
+              onChange={extractValue(value => field.onChange(stringToNum(value)))}/>
+            <FormMessage/>
+          </FormItem>
+        )}/>
+      </FormGroup>
+      <FormGroup label={"Line"}>
         <>
           <FormField
             control={form.control}
@@ -91,7 +104,7 @@ export const QrCodeForm: FC<QrCodeFormProps> = (props) => {
           />
         </>
       </FormGroup>
-      <FormGroup label={"Colours"}>
+      <FormGroup label={"Colour"}>
         <FormField
           control={form.control}
           name={"bgColor"}
@@ -122,6 +135,63 @@ export const QrCodeForm: FC<QrCodeFormProps> = (props) => {
               <FormMessage/>
             </FormItem>
           )}/>
+      </FormGroup>
+      <FormGroup label={"Logo"}>
+        <FormField
+          control={form.control}
+          name={"logoImage"}
+          render={({field}) => (
+            <FormItem>
+              <FormLabel>Logo</FormLabel>
+              <FileUpload value={field.value} onChange={field.onChange}/>
+              <FormMessage/>
+            </FormItem>
+          )}/>
+        <FormField
+          control={form.control}
+          name={"logoHeight"}
+          render={({field}) => (
+            <FormItem>
+              <FormLabel>Height</FormLabel>
+              <Input
+                {...field}
+                type={"number"}
+                onChange={extractValue(value => field.onChange(stringToNum(value)))}/>
+              <FormMessage/>
+            </FormItem>
+          )}/>
+        <FormField
+          control={form.control}
+          name={"logoWidth"}
+          render={({field}) => (
+            <FormItem>
+              <FormLabel>Width</FormLabel>
+              <Input
+                {...field}
+                type={"number"}
+                onChange={extractValue(value => field.onChange(stringToNum(value)))}/>
+              <FormMessage/>
+            </FormItem>
+          )}/>
+
+        <FormField
+          control={form.control}
+          name={"logoOpacity"}
+          render={({field}) => (
+            <FormItem>
+              <FormLabel>Opacity</FormLabel>
+              <Slider
+                defaultValue={[field.value]}
+                min={0}
+                max={1}
+                step={0.1}
+                onValueChange={(value) => field.onChange(value[0])}
+                value={[field.value]}
+              />
+              <FormMessage/>
+            </FormItem>
+          )}
+        />
       </FormGroup>
     </form>
   </Form>

@@ -6,6 +6,7 @@ import {QrCodeForm} from "~/app/qr-code-form";
 import {type QrCodeData, QrStyle} from "~/contracts/qr-code.schema";
 
 const QR_CODE_DISPLAY_SIZE = 250;
+const QR_CODE_DEFAULT_LOGO_SIZE = 50;
 
 export default function Home() {
 
@@ -16,6 +17,11 @@ export default function Home() {
     bgColor: "transparent",
     fgColor: "#000000",
     eyeColor: "#000000",
+    logoImage: "",
+    logoHeight: QR_CODE_DEFAULT_LOGO_SIZE,
+    logoWidth: QR_CODE_DEFAULT_LOGO_SIZE,
+    logoOpacity: 1,
+    size: QR_CODE_DISPLAY_SIZE,
   });
 
   return (
@@ -26,7 +32,7 @@ export default function Home() {
       </div>
       <div className={"container flex flex-col space-y-8"}>
         <div className={"flex flex-col items-center"}>
-          <QRCode {...qrCode} size={QR_CODE_DISPLAY_SIZE}/>
+          <QRCode {...qrCode}/>
         </div>
 
         <QrCodeForm defaultValues={qrCode} onChanged={setQrCode}/>
