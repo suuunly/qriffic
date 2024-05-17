@@ -94,7 +94,7 @@ export const QrCodeForm: FC<QrCodeFormProps> = (props) => {
                   <Slider
                     defaultValue={[field.value]}
                     min={0}
-                    max={50}
+                    max={(form.getValues().size / 100) * 23}
                     step={1}
                     onValueChange={(value) => field.onChange(value[0])}
                     value={[field.value]}
