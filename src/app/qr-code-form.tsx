@@ -121,6 +121,7 @@ export const QrCodeForm: FC<QrCodeFormProps> = (props) => {
                     <SelectContent>
                       <SelectItem value={QrStyle.Dots}>Dots</SelectItem>
                       <SelectItem value={QrStyle.Squares}>Squares</SelectItem>
+                      <SelectItem value={QrStyle.Fluid}>Fluid</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
