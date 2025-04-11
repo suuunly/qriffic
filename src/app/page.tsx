@@ -9,10 +9,7 @@ import { type QrCodeData, QrStyle } from "~/contracts/qr-code.schema";
 // todo: make this responsive, and abstract these calculations into a method/hook
 const QR_CODE_DISPLAY_SIZE = 300
 const QR_CODE_DISPLAY_MAX_SCALE_FACTOR = 8;
-
 const QR_CODE_DEFAULT_LOGO_SIZE = 50;
-
-const QR_CODE_VIEW_SIZE = `w-[${QR_CODE_DISPLAY_SIZE}px] h-[${QR_CODE_DISPLAY_SIZE}px]`
 
 export default function Home() {
 
@@ -30,6 +27,10 @@ export default function Home() {
     size: QR_CODE_DISPLAY_SIZE,
   });
 
+  const viewSize = useMemo(() => {
+    return `w-[${QR_CODE_DISPLAY_SIZE}px] h-[${QR_CODE_DISPLAY_SIZE}px]`
+  }, [])
+
   const scale = useMemo(() => {
     const scale = QR_CODE_DISPLAY_SIZE / qrCode.size
     return Math.min(scale, QR_CODE_DISPLAY_SIZE / QR_CODE_DISPLAY_MAX_SCALE_FACTOR)
@@ -42,10 +43,8 @@ export default function Home() {
         <p className={"text-muted-foreground font-light"}>A <b>free</b> QR code generator</p>
       </div>
       <div className={"container flex flex-col space-y-8"}>
-        <div className={"flex flex-col items-center"}>
-            <div className={twMerge(QR_CODE_VIEW_SIZE, "flex items-center justify-center")} style={{ transform: `scale(${scale})`}}>
-              <QRCode {...qrCode} />
-            </div>
+        <div className={twMerge(viewSize, "h-[300px] flex items-center justify-center")} style={{ transform: `scale(${scale})`}}>
+          <QRCode {...qrCode} />
         </div>
 
         <QrCodeForm defaultValues={qrCode} onChanged={setQrCode}/>
