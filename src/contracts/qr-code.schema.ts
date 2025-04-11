@@ -1,8 +1,9 @@
-import {z} from "zod";
+import { z } from "zod";
 
 export enum QrStyle {
   Dots = "dots",
   Squares = "squares",
+  Fluid = "fluid",
 }
 
 export const qrCodeSchema = z.object({
