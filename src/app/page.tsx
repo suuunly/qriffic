@@ -7,8 +7,7 @@ import { QrCodeForm } from "~/app/qr-code-form";
 import { type QrCodeData, QrStyle } from "~/contracts/qr-code.schema";
 
 // todo: make this responsive, and abstract these calculations into a method/hook
-const QR_CODE_SMALLER_SCREEN_PADDING = 1.3;
-const QR_CODE_DISPLAY_SIZE = Math.round(Math.min(window.innerWidth / QR_CODE_SMALLER_SCREEN_PADDING, 400));
+const QR_CODE_DISPLAY_SIZE = 300
 const QR_CODE_DISPLAY_MAX_SCALE_FACTOR = 8;
 
 const QR_CODE_DEFAULT_LOGO_SIZE = 50;
