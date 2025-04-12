@@ -1,10 +1,13 @@
 "use client"
 
+import { DownloadIcon } from "lucide-react";
 import React, { useMemo } from "react";
 import { QRCode } from "react-qrcode-logo";
 import { twMerge } from "tailwind-merge";
 import { QrCodeForm } from "~/app/qr-code-form";
+import { Button } from "~/components/ui/button";
 import { type QrCodeData, QrStyle } from "~/contracts/qr-code.schema";
+import { useDownload } from "./hooks/use-download";
 
 // todo: make this responsive, and abstract these calculations into a method/hook
 const QR_CODE_DISPLAY_SIZE = 300
@@ -12,6 +15,12 @@ const QR_CODE_DISPLAY_MAX_SCALE_FACTOR = 8;
 const QR_CODE_DEFAULT_LOGO_SIZE = 50;
 
 export default function Home() {
+
+  const downloadQrCode = useDownload({
+    id: "qriffic-canvas",
+    fileName: "qriffic-code.png",
+    mimeType: "image/png"
+  });
 
   const [qrCode, setQrCode] = React.useState<QrCodeData>({
     value: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
@@ -43,9 +52,14 @@ export default function Home() {
         <p className={"text-muted-foreground font-light"}>A <b>free</b> QR code generator</p>
       </div>
       <div className={"container flex flex-col space-y-8"}>
-        <div className={twMerge(viewSize, "h-[300px] flex items-center justify-center")} style={{ transform: `scale(${scale})`}}>
-          <QRCode {...qrCode} />
+        <div className={twMerge(viewSize, "h-[300px] flex items-center justify-center -z-50")} style={{ transform: `scale(${scale})`}}>
+          <QRCode {...qrCode} id="qriffic-canvas" />
         </div>
+
+        <Button onClick={downloadQrCode} variant="default" size="sm" className="w-fit mx-auto">
+          <DownloadIcon className="w-4 h-4 mr-2" />
+          Download QR Code
+        </Button>
 
         <QrCodeForm defaultValues={qrCode} onChanged={setQrCode}/>
       </div>
