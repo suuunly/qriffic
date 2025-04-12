@@ -19,7 +19,7 @@ export function useDownload(options: DownloadOptions) {
       .toDataURL(options.mimeType)
       .replace(options.mimeType, "image/octet-stream");
 
-    let downloadLink = document.createElement("a");
+    const downloadLink = document.createElement("a");
 
     downloadLink.href = pngUrl;
     downloadLink.download = options.fileName;
