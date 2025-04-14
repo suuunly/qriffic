@@ -24,10 +24,13 @@ import {
 } from "~/components/ui/select";
 import { Slider } from "~/components/ui/slider";
 import {
+  MAX_SUPPORTED_QR_CODE_SIZE,
+  MIN_SUPPORTED_QR_CODE_SIZE,
   QrStyle,
   qrCodeSchema,
   type QrCodeData,
 } from "~/contracts/qr-code.schema";
+import { clamp } from "~/lib/clamp";
 import { stringToNum } from "~/lib/converters/string-to-num";
 import { extractValue } from "~/lib/events/extract-value";
 
@@ -43,7 +46,24 @@ export const QrCodeForm: FC<QrCodeFormProps> = (props) => {
   });
 
   function onSubmit(values: QrCodeData) {
-    props.onChanged(values);
+
+    if (values.size < MIN_SUPPORTED_QR_CODE_SIZE) {
+      form.setError("size", { message: "Size must be at least 1" });
+      return;
+    }
+
+    if (values.size > MAX_SUPPORTED_QR_CODE_SIZE) {
+      form.setError("size", { message: "Size larger than 8172 is not supported" });
+      return;
+    }
+
+    const safeSize = clamp(
+      values.size,
+      MIN_SUPPORTED_QR_CODE_SIZE,
+      MAX_SUPPORTED_QR_CODE_SIZE
+    )
+
+    props.onChanged({...values, size: safeSize});
   }
 
   form.watch((values) => {
@@ -74,6 +94,8 @@ export const QrCodeForm: FC<QrCodeFormProps> = (props) => {
                 <Input
                   {...field}
                   type={"number"}
+                  min={MIN_SUPPORTED_QR_CODE_SIZE}
+                  max={MAX_SUPPORTED_QR_CODE_SIZE}
                   onChange={extractValue((value) =>
                     field.onChange(stringToNum(value)),
                   )}
@@ -135,9 +157,10 @@ export const QrCodeForm: FC<QrCodeFormProps> = (props) => {
             control={form.control}
             name={"bgColor"}
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Background</FormLabel>
+              <FormItem className="flex justify-between items-center gap-3">
+                <FormLabel className="mt-2 min-w-20">Background</FormLabel>
                 <GradientPicker
+                  className="w-full"
                   background={field.value}
                   setBackground={field.onChange}
                 />
@@ -149,9 +172,10 @@ export const QrCodeForm: FC<QrCodeFormProps> = (props) => {
             control={form.control}
             name={"fgColor"}
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Colour</FormLabel>
+              <FormItem className="flex justify-between items-center gap-3">
+                <FormLabel className="mt-2 min-w-20">Colour</FormLabel>
                 <GradientPicker
+                  className="w-full"
                   background={field.value}
                   setBackground={field.onChange}
                 />
@@ -163,9 +187,10 @@ export const QrCodeForm: FC<QrCodeFormProps> = (props) => {
             control={form.control}
             name={"eyeColor"}
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Eye Colour</FormLabel>
+              <FormItem className="flex justify-between items-center gap-3">
+                <FormLabel className="mt-2 min-w-20">Eye Colour</FormLabel>
                 <GradientPicker
+                  className="w-full"
                   background={field.value}
                   setBackground={field.onChange}
                 />

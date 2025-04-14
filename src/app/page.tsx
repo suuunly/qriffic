@@ -51,17 +51,21 @@ export default function Home() {
         <h1 className={"font-extrabold text-4xl"}>Qriffic</h1>
         <p className={"text-muted-foreground font-light"}>A <b>free</b> QR code generator</p>
       </div>
-      <div className={"container flex flex-col space-y-8"}>
-        <div className={twMerge(viewSize, "h-[300px] flex items-center justify-center -z-50")} style={{ transform: `scale(${scale})`}}>
-          <QRCode {...qrCode} id="qriffic-canvas" />
+      <div className={"container flex flex-col lg:flex-row-reverse space-y-8"}>
+        <div>
+          <div className="flex flex-col gap-4 container lg:sticky lg:top-0">
+            <div className={twMerge(viewSize, "h-[300px] mt-0 lg:mt-16 flex items-center justify-center -z-50")} style={{ transform: `scale(${scale})`}}>
+              <QRCode {...qrCode} id="qriffic-canvas" />
+            </div>
+            <Button onClick={downloadQrCode} variant="default" size="sm" className="w-fit mx-auto">
+              <DownloadIcon className="w-4 h-4 mr-2" />
+              Download QR Code
+            </Button>
+          </div>
         </div>
-
-        <Button onClick={downloadQrCode} variant="default" size="sm" className="w-fit mx-auto">
-          <DownloadIcon className="w-4 h-4 mr-2" />
-          Download QR Code
-        </Button>
-
-        <QrCodeForm defaultValues={qrCode} onChanged={setQrCode}/>
+        <div className="flex-1">
+          <QrCodeForm defaultValues={qrCode} onChanged={setQrCode}/>
+        </div>
       </div>
 
     </main>

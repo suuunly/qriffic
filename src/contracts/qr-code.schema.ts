@@ -6,9 +6,12 @@ export enum QrStyle {
   Fluid = "fluid",
 }
 
+export const MAX_SUPPORTED_QR_CODE_SIZE = 8172;
+export const MIN_SUPPORTED_QR_CODE_SIZE = 1;
+
 export const qrCodeSchema = z.object({
   value: z.string().url(),
-  size: z.number().gte(0),
+  size: z.number().gte(MIN_SUPPORTED_QR_CODE_SIZE),
   qrStyle: z.nativeEnum(QrStyle),
   eyeRadius: z.number().gte(0),
   bgColor: z.string(),
