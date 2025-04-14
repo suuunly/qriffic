@@ -157,9 +157,10 @@ export const QrCodeForm: FC<QrCodeFormProps> = (props) => {
             control={form.control}
             name={"bgColor"}
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Background</FormLabel>
+              <FormItem className="flex justify-between items-center gap-3">
+                <FormLabel className="mt-2 min-w-20">Background</FormLabel>
                 <GradientPicker
+                  className="w-full"
                   background={field.value}
                   setBackground={field.onChange}
                 />
@@ -171,9 +172,10 @@ export const QrCodeForm: FC<QrCodeFormProps> = (props) => {
             control={form.control}
             name={"fgColor"}
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Colour</FormLabel>
+              <FormItem className="flex justify-between items-center gap-3">
+                <FormLabel className="mt-2 min-w-20">Colour</FormLabel>
                 <GradientPicker
+                  className="w-full"
                   background={field.value}
                   setBackground={field.onChange}
                 />
@@ -185,9 +187,10 @@ export const QrCodeForm: FC<QrCodeFormProps> = (props) => {
             control={form.control}
             name={"eyeColor"}
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Eye Colour</FormLabel>
+              <FormItem className="flex justify-between items-center gap-3">
+                <FormLabel className="mt-2 min-w-20">Eye Colour</FormLabel>
                 <GradientPicker
+                  className="w-full"
                   background={field.value}
                   setBackground={field.onChange}
                 />
